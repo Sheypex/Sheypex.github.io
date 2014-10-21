@@ -1,4 +1,4 @@
-angular.module("fussiServices", [])
+angular.module("ntpServices", [])
     .factory("getSearch", function ($http, $rootScope) {
         return function (query, searchRange) {
             if (searchRange === "Everything") {

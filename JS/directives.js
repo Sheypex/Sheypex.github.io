@@ -1,5 +1,5 @@
-angular.module("fussiDirectives", [
-    "fussiServices"
+angular.module("ntpDirectives", [
+    "ntpServices"
 ])
     .directive("fssDropdown", function () {
         return {

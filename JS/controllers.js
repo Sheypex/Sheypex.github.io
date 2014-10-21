@@ -1,5 +1,5 @@
-angular.module("fussiControllers", [
-    'fussiServices'
+angular.module("ntpControllers", [
+    'ntpServices'
 ])
     .controller("navCtrl", function ($scope, getCategories, getSearch) {
         $scope.navLinks = {
