@@ -1,0 +1,55 @@
+<div ng-controller="categoryCtrl">
+    <div class="row">
+        <div class="panel panel-default panel-collapse">
+            <div class="panel-heading" ng-init="toggleVisible1 = false" ng-click="toggleVisible1 = !toggleVisible1">
+                <h4 class="panel-title">Filters</h4>
+            </div>
+            <div class="panel-footer" ng-show="toggleVisible1">
+                <form class="form-inline">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <!-- Später infinitLoad machen: sobald unterster article erreicht neue laden... usw. -->
+                            <label>Count</label>
+                            <input ng-model="getArticlesParams.count" ng-change="reloadArticles()" type="text" class="form-control" placeholder="Load ... articles"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Since</label>
+                            <input ng-model="getArticlesParams.since" ng-change="reloadArticles()" type="date" class="form-control"
+                                   placeholder="Loads articles published since ..."/>
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Order</label>
+                            <select ng-model="getArticlesParams.order" ng-init="getArticlesParams.order = 'Relevance'" ng-change="reloadArticles()" class="form-control">
+                                <option ng-selected="true">Relevance</option>
+                                <option>Date</option>
+                            </select>
+                        </div>
+                        <div class="checkbox col-lg-3">
+                            <label>
+                                Show only the title? <input ng-model="getArticlesParams.title_only"
+                                                            ng-change="reloadArticles()" type="checkbox" value=""/>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="well">
+            <div class="panel panel-default" ng-repeat="article in articles.articles">
+                <div class="panel-heading">
+                    <a ng-href="{{article.url}}">
+                        <h3>{{article.title}}</h3>
+
+                        <h3 class="panel-title" ng-if="article.author"><span
+                                ng-if="article.author.indexOf('By') === -1">By </span>{{article.author}}</h3>
+                    </a>
+                </div>
+                <div class="panel-body" ng-hide="getArticlesParams.title_only">
+                    <h4 class="lead">{{article.summary}}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
