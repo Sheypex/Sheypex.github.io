@@ -46,7 +46,7 @@
                                 ng-if="article.author.indexOf('By') === -1">By </span>{{article.author}}</h3>
                     </a>
                 </div>
-                <div class="panel-body" ng-hide="getArticlesParams.title_only">
+                <div class="panel-body" ng-if="article.summary" ng-hide="getArticlesParams.title_only">
                     <h4 class="lead">{{article.summary}}</h4>
                 </div>
             </div>
