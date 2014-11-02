@@ -2,13 +2,23 @@ angular.module("ntpControllers", [
     "ntpServices"
 ])
     .controller("homeCtrl", function ($scope, $rootScope) {
+    })
+    .controller("navCtrl", function ($scope, $rootScope, $state) {
         // INIT:
         $rootScope.setArticles = function () {
         };
+        $rootScope.infArticleLoad = function () {
+        };
+
+        $rootScope.loadParams = {
+            count: 20,
+            order: "Relevance"
+        };
         $rootScope.enableCategoriesPanelToggle = false;
         $rootScope.currentlyCatOrSubcat = "Category";
-    })
-    .controller("navCtrl", function ($scope, $rootScope, $state) {
+
+
+
         $scope.searchValidate = function () {
             if ($scope.searchForm.searchTextInput.$valid) {
                 //console.log("Search is valid");
@@ -80,34 +90,37 @@ angular.module("ntpControllers", [
         loadSubcategories($scope, "subcategories", $rootScope.categoryId, {order: "popular"});
     })
     .controller("filtersCtrl", function ($scope, $rootScope, $state, $stateParams, loadCatArticles, loadSubcatArticles) {
-        $scope.loadParams = {};
+        $scope.loadParams = {
+            count: 20,
+            order: "Relevance"
+        };
         /*count: NUMBER,
          since: STRING,
          order: STRING,
          title_only: BOOLEAN*/
         $scope.reloadArticles = function () {
-            console.log($scope.loadParams.since);
+            //console.log($scope.loadParams.since);
             if ($scope.loadParams.since)$scope.loadParams.since = String(moment($scope.loadParams.since).format("YYYY-MM-DD"));
-            console.log($scope.loadParams.since);
+            //console.log($scope.loadParams.since);
             $rootScope.loadParams = $scope.loadParams;
             if ($rootScope.currentlyCatOrSubcat === "Category") {
-                console.log("Reload Category");
-                angular.forEach($scope.loadParams, function (value, key) {
-                    console.log(key + " = " + value);
-                });
-                console.log("-------------------------------------------");
+                /*console.log("Reload Category");
+                 angular.forEach($scope.loadParams, function (value, key) {
+                 console.log(key + " = " + value);
+                 });
+                 console.log("-------------------------------------------");*/
                 loadCatArticles($rootScope.categoryId, $scope.loadParams);
             } else if ($rootScope.currentlyCatOrSubcat === "Subcategory") {
-                console.log("Reload Subcategory");
-                angular.forEach($scope.loadParams, function (value, key) {
-                    console.log(key + " = " + value);
-                });
-                console.log("-------------------------------------------");
+                /*console.log("Reload Subcategory");
+                 angular.forEach($scope.loadParams, function (value, key) {
+                 console.log(key + " = " + value);
+                 });
+                 console.log("-------------------------------------------");*/
                 loadSubcatArticles($rootScope.categoryId, $rootScope.subcategoryId, $scope.loadParams);
             }
         };
     })
-    .controller("articlesCtrl", function ($scope, $rootScope, $sce) {
+    .controller("articlesCtrl", function ($scope, $rootScope, $sce, loadCatArticles, loadSubcatArticles) {
         $scope.articles = {};
         $rootScope.setArticles = function (newArticles) {
             $scope.articles = newArticles;
@@ -115,5 +128,21 @@ angular.module("ntpControllers", [
 
         $scope.trustArticlesSummary = function (smth) {
             return $sce.trustAsHtml(smth);
-        }
+        };
+
+        $scope.publishedAgo = function (date) {
+            return moment(date).fromNow();
+        };
+
+        $rootScope.loadParams.count = 15;
+
+        $scope.infArticleLoad = function () {
+            $rootScope.loadParams.count < 100 ? $rootScope.loadParams.count = $rootScope.loadParams.count + 5:
+                $rootScope.loadParams.count = 100;
+            if ($rootScope.currentlyCatOrSubcat === "Category") {
+                loadCatArticles($rootScope.categoryId, $rootScope.loadParams);
+            } else if ($rootScope.currentlyCatOrSubcat === "Subcategory") {
+                loadSubcatArticles($rootScope.categoryId, $rootScope.subcategoryId, $rootScope.loadParams);
+            }
+        };
     });

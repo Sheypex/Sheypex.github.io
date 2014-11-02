@@ -33,14 +33,13 @@ angular.module("ntpServices", [])
             if (params) {
                 reqUrl = appendLoadParams(reqUrl, params);
             }
-            console.log(reqUrl);
-            console.log("-------------------------------------------");
+            //console.log(reqUrl);
             $http.get(reqUrl)
                 .success(function (data) {
                     //console.log(data);
-                    //scope[target] = data;
                     $rootScope.setArticles(data);
                 });
+            //console.log("-------------------------------------------");
         }
     })
     .factory("loadSubcatArticles", function ($http, $rootScope, appendLoadParams) {
@@ -51,14 +50,13 @@ angular.module("ntpServices", [])
             if (params) {
                 reqUrl = appendLoadParams(reqUrl, $rootScope.articleParams);
             }
-            console.log(reqUrl);
-            console.log("-------------------------------------------");
+            //console.log(reqUrl);
             $http.get(reqUrl)
                 .success(function (data) {
-                    //console.log(data);
-                    //scope[target] = data;
+                    console.log(data);
                     $rootScope.setArticles(data);
                 });
+            console.log("-------------------------------------------");
         }
     })
     .factory("loadSearch", function ($http, $rootScope, appendLoadParams) {

@@ -3,9 +3,8 @@
         <div class="col-lg-12">
             <div class="panel panel-info">
                 <div class="panel-heading" ng-click="toggleOpen()">
-                    <div class="panel-title">
-                        <span ng-if="panelToggleIsEnabled">Other</span> Categories <span class="caret"
-                                                                                         ng-if="panelToggleIsEnabled"></span>
+                    <div class="panel-title" ntp-caret-toggle="togglePanelClosed" hide-caret="!panelToggleIsEnabled">
+                        <span ng-if="panelToggleIsEnabled">Other</span> Categories
                     </div>
                 </div>
                 <div class="panel-body" ng-hide="togglePanelClosed">
